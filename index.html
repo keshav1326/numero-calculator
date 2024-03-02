@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(45deg, #2980b9, #6dd5fa, #ffffff);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 95vh;
+        }
+
+        .container {
+            text-align: center;
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 400px;
+        }
+
+        h1 {
+            color: #2980b9;
+        }
+
+        label {
+            font-size: 14px;
+            color: #555;
+            display: block;
+            margin-top: 15px;
+        }
+
+        input {
+            padding: 10px;
+            margin: 8px 0;
+            width: 80%;
+            box-sizing: border-box;
+            border: 1px solid #3498db;
+            border-radius: 5px;
+            color: #333;
+        }
+
+        button {
+            padding: 12px 20px;
+            background: linear-gradient(45deg, #4caf50, #45a049);
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background: linear-gradient(45deg, #45a049, #4caf50);
+        }
+
+        p {
+            font-size: 16px;
+            color: #333;
+            margin-top: 10px;
+        }
+
+        span {
+            font-weight: bold;
+            color: #3498db;
+        }
+    </style>
+    <title>Date and Name Astro Calculator</title>
+</head>
+<body>
+    <div class="container">
+        <h1> Numero Calculator</h1>
+        <label for="dobInput">Enter Date of Birth (DD-MM-YYYY):</label>
+        <input type="text" id="dobInput" placeholder="e.g., dd-mm-yyyy">
+        <p>BN: <span id="dateAddOutput"></span></p>
+        <p>DN: <span id="totalAddOutput"></span></p>
+
+        <label for="phoneInput">Enter Your Phone No:</label>
+        <input type="text" id="phoneInput" placeholder="Phone No.">
+        <p>Phone No. Total: <span id="phoneAddOutput"></span></p>
+
+        <label for="firstNameInput">Enter First Name:</label>
+        <input type="text" id="firstNameInput" placeholder="First Name">
+
+        <label for="lastNameInput">Enter Last Name:</label>
+        <input type="text" id="lastNameInput" placeholder="Last Name">
+        <p>First Name Total: <span id="firstNameAddOutput"></span></p>
+        <p>Last Name Total: <span id="lastNameAddOutput"></span></p>
+
+        <p>Full Name Total: <span id="totalAdd"></span></p>
+        <button onclick="calculate()">Calculate</button>
+    </div>
+
+    <script>
+        function calculate() {
+            // Date of Birth Calculation
+            const dobInput = document.getElementById('dobInput').value;
+	const dateArray = dobInput.split('-').join('').split('');
+	const dayDigits = dobInput.split('-')[0].split('').map(Number);
+  const dateAdd = dayDigits.reduce((sum, digit) => sum + digit, 0);
+  const totalAdd = dateArray.reduce((sum, digit) => sum + parseInt(digit), 0);
+
+	document.getElementById('totalAddOutput').innerText = totalAdd;
+	document.getElementById('dateAddOutput').innerText = dateAdd;
+
+    //Phone No. addition Calculation
+    const phoneInput = document.getElementById('phoneInput').value;
+    const phoneAdd = phoneInput.split('').reduce((sum, digit) => sum + parseInt(digit), 0);
+    document.getElementById('phoneAddOutput').innerText = phoneAdd;
+	// First Name and Last Name Calculation
+	const firstNameInput = document.getElementById('firstNameInput').value.toUpperCase();
+	const lastNameInput = document.getElementById('lastNameInput').value.toUpperCase();
+
+	const getValueForChar = (char) => {
+			const charValues = {
+					'A': 1, 'I': 1, 'J': 1, 'Q': 1, 'Y': 1,
+					'B': 2, 'K': 2, 'R': 2,
+					'C': 3, 'G': 3, 'L': 3, 'S': 3,
+					'D': 4, 'M': 4, 'T': 4,
+					'H': 5, 'N': 5, 'E': 5, 'X': 5,
+					'U': 6, 'V': 6, 'W': 6,
+					'O': 7, 'Z': 7,
+					'F': 8, 'P': 8
+			};
+			return charValues[char] || 0;
+	};
+
+	const firstNameAdd = firstNameInput.split('').reduce((sum, char) => sum + getValueForChar(char), 0);
+	const lastNameAdd = lastNameInput.split('').reduce((sum, char) => sum + getValueForChar(char), 0);
+
+	document.getElementById('firstNameAddOutput').innerText = firstNameAdd;
+	document.getElementById('lastNameAddOutput').innerText = lastNameAdd;
+	document.getElementById('totalAdd').innerText = firstNameAdd + lastNameAdd;
+        }
+    </script>
+</body>
+</html>
